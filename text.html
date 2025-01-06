@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Preview with Auto-Save</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .preview {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .preview div {
+            margin: 10px 0;
+        }
+        .preview span {
+            font-weight: bold;
+        }
+        .editable {
+            display: inline-block;
+            padding: 5px;
+            border: 1px dashed #aaa;
+            border-radius: 3px;
+            min-width: 100px;
+            cursor: text;
+        }
+        .editable:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h2>Editable Preview Section with Auto-Save</h2>
+    <div class="preview">
+        <div>
+            Name: <span class="editable" contenteditable="true" id="previewName">Enter your name</span>
+        </div>
+        <div>
+            Email: <span class="editable" contenteditable="true" id="previewEmail">Enter your email</span>
+        </div>
+        <div>
+            Phone: <span class="editable" contenteditable="true" id="previewPhone">Enter your phone number</span>
+        </div>
+    </div>
+
+    <script>
+        // Elements for editable fields
+        const previewName = document.getElementById('previewName');
+        const previewEmail = document.getElementById('previewEmail');
+        const previewPhone = document.getElementById('previewPhone');
+
+        // Load data from localStorage
+        function loadData() {
+            previewName.textContent = localStorage.getItem('previewName') || '';
+            previewEmail.textContent = localStorage.getItem('previewEmail') || 'Enter your email';
+            previewPhone.textContent = localStorage.getItem('previewPhone') || 'Enter your phone number';
+        }
+
+        // Save data to localStorage
+        function autoSave(field, key) {
+            field.addEventListener('input', () => {
+                localStorage.setItem(key, field.textContent);
+                console.log(`${key} saved:`, field.textContent);
+            });
+        }
+
+        // Attach auto-save functionality
+        autoSave(previewName, 'previewName');
+        autoSave(previewEmail, 'previewEmail');
+        autoSave(previewPhone, 'previewPhone');
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
